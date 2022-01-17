@@ -391,6 +391,92 @@ public:
 
     if (vert_block_is_odd) {
       *matrix_x = x + (x / tile_width) * tile_width;
+      
+    } else {
+      *matrix_x = x + (x / tile_width) * tile_width + 8 + evenOffset[x % 8];
+    }
+    *matrix_y = (y % tile_height) + tile_height * (y / (tile_height * 2));
+
+    printf("First Y %d ----- Old Y %d ----- ",y,*matrix_y);
+
+    if((*matrix_y>=8 && *matrix_y<12 )
+    //||(y>=8 && y<12)||(y>=16 && y<20)||(y>=24 && y<28)
+    ){
+      switch (*matrix_y)
+      {
+      case 8/* constant-expression */:
+        *matrix_y = 11;/* code */
+        break;
+      case 9/* constant-expression */:
+        *matrix_y = 10;/* code */
+        break;
+        case 10/* constant-expression */:
+        *matrix_y = 9;/* code */
+        break;
+        case 11/* constant-expression */:
+        *matrix_y = 8;/* code */
+
+        // case 8/* constant-expression */:
+        // *matrix_y = 11;/* code */
+        // break;
+        // case 9/* constant-expression */:
+        // *matrix_y = 10;/* code */
+        // break;
+        // case 10/* constant-expression */:
+        // *matrix_y = 9;/* code */
+        // break;
+        // case 11/* constant-expression */:
+        // *matrix_y = 8;/* code */
+
+        // case 16/* constant-expression */:
+        // *matrix_y = 19;/* code */
+        // break;
+        // case 17/* constant-expression */:
+        // *matrix_y = 18;/* code */
+        // break;
+        // case 18/* constant-expression */:
+        // *matrix_y = 17;/* code */
+        // break;
+        // case 19/* constant-expression */:
+        // *matrix_y = 16;/* code */
+
+        // case 24/* constant-expression */:
+        // *matrix_y = 27;/* code */
+        // break;
+        // case 25/* constant-expression */:
+        // *matrix_y = 26;/* code */
+        // break;
+        // case 26/* constant-expression */:
+        // *matrix_y = 25;/* code */
+        // break;
+        // case 27/* constant-expression */:
+        // *matrix_y = 24;/* code */
+        // break;
+      default:
+        break;
+      }
+      
+    }
+
+    printf("New Y %d\n",*matrix_y);
+
+    
+  }
+};
+
+class InversedZStripeKathP10 : public MultiplexMapperBase {
+public:
+  InversedZStripeKathP10() : MultiplexMapperBase("InversedZStripeKathP10", 2) {}
+
+  void MapSinglePanel(int x, int y, int *matrix_x, int *matrix_y) const {
+    static const int tile_width = 8;
+    static const int tile_height = 4;
+
+    const int vert_block_is_odd = ((y / tile_height) % 2);
+    const int evenOffset[8] = {7, 5, 3, 1, -1, -3, -5, -7};
+
+    if (vert_block_is_odd) {
+      *matrix_x = x + (x / tile_width) * tile_width;
     } else {
       *matrix_x = x + (x / tile_width) * tile_width + 8 + evenOffset[x % 8];
     }
@@ -589,6 +675,7 @@ static MuxMapperList *CreateMultiplexMapperList() {
   result->push_back(new FlippedStripeMultiplexMapper());
   result->push_back(new P10Outdoor32x16HalfScanMapper());
   result->push_back(new LedCardP5Outdoor());
+  result->push_back(new InversedZStripeKathP10());
   return result;
 }
 
