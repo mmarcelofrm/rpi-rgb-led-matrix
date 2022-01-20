@@ -1114,7 +1114,7 @@ public:
       }
 
       if(printValue)
-        printf("# key:%d, x:%d, y:%d, color:%d ", key, x, y, currColor);
+        printf("# key:%d, x:%d, y:%d, color:%d\n\r", key, x, y, currColor);
 
       canvas()->SetPixel(x, y, colors[currColor].r, colors[currColor].g, colors[currColor].b);
     }

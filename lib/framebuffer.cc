@@ -253,12 +253,22 @@ class DirectABCDLineRowAddressSetter : public RowAddressSetter {
 public:
   DirectABCDLineRowAddressSetter(int double_rows, const HardwareMapping &h)
     : last_row_(-1) {
-	row_mask_ = h.a | h.b | h.c | h.d;
+	row_mask_ = h.a | h.b;
+  // | h.c | h.d;
 
-	row_lines_[0] = /*h.a |*/ h.b | h.c | h.d;
-	row_lines_[1] = h.a /*| h.b*/ | h.c | h.d;
-	row_lines_[2] = h.a | h.b /*| h.c */| h.d;
-	row_lines_[3] = h.a | h.b | h.c /*| h.d*/;
+	// row_lines_[0] = /*h.a |*/ h.b | h.c | h.d;
+	// row_lines_[1] = h.a /*| h.b*/ | h.c | h.d;
+	// row_lines_[2] = h.a | h.b /*| h.c */| h.d;
+	// row_lines_[3] = h.a | h.b | h.c /*| h.d*/;
+
+  
+	row_lines_[0] = 0;
+	row_lines_[1] = h.a;
+	row_lines_[2] = h.b;
+	row_lines_[3] = h.a | h.b;
+
+  printf("We are in the right place");
+  
   }
 
   virtual gpio_bits_t need_bits() const { return row_mask_; }
